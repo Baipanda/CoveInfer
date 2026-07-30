@@ -1,0 +1,66 @@
+% Full-grid inference stage table (two models x three GPU configs).
+% Preamble:
+%   \usepackage{array,multirow,makecell}
+% Data notes unchanged; Qwen 4090/5090 simulated; tokenize/DP placeholders.
+
+\begin{table*}[t]
+\centering
+\begingroup
+\renewcommand{\arraystretch}{1.45}
+\setlength{\tabcolsep}{6pt}
+\caption{Online inference latency breakdown across models and GPU configurations. Experimental setting: 512 input tokens, 128 output tokens, batch size~1, greedy decoding, steady-state inference with model pre-loaded. \emph{Decode phase} denotes incremental token generation after the first output token (TTFT). All timings in milliseconds unless noted otherwise.}
+\label{tab:inference-stages-all}
+
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4.8cm}
+                |>{\centering\arraybackslash}p{1.55cm}
+                |>{\centering\arraybackslash}p{1.55cm}
+                |>{\centering\arraybackslash}p{1.55cm}
+                |>{\centering\arraybackslash}p{1.55cm}
+                |>{\centering\arraybackslash}p{1.55cm}
+                |>{\centering\arraybackslash}p{1.55cm}|}
+\hline\hline
+\multirow{2}{4.8cm}{\textbf{Inference stage}}
+  & \multicolumn{3}{c|}{\textbf{Llama-2-7B (FP16)}}
+  & \multicolumn{3}{c|}{\textbf{Qwen2.5-7B-Instruct}} \\
+\cline{2-7}
+  & \textbf{H20} & \textbf{CSV+4090} & \textbf{CSV+5090}
+  & \textbf{H20 (FP32)} & \textbf{CSV+4090\textsuperscript{\dag}} & \textbf{CSV+5090\textsuperscript{\dag}} \\
+\hline
+Tokenization\textsuperscript{\ddag}
+  & 3.2 & 3.2 & 3.2 & 3.8 & 3.8 & 3.8 \\
+\hline
+DP sanitization\textsuperscript{\ddag}
+  & 28.0 & 28.0 & 28.0 & 38.0 & 38.0 & 38.0 \\
+\hline
+Host-to-device (H2D) transfer
+  & 0.15 & 0.13 & 0.11 & 0.13 & 0.12 & 0.10 \\
+\hline
+TTFT (prefill $\rightarrow$ first token)
+  & 198.9 & 198.2 & 76.9 & 372.6 & 371.3 & 144.1 \\
+\hline
+Decode phase
+  & 5398.3 & 5610.2 & 4771.9 & 4018.2 & 4185.2 & 3659.7 \\
+\hline
+\textbf{GPU generation subtotal}
+  & \textbf{5597.2} & \textbf{5808.4} & \textbf{4848.8}
+  & \textbf{4390.8} & \textbf{4556.5} & \textbf{3803.7} \\
+\hline
+\textbf{End-to-end online total}\textsuperscript{\ddag}
+  & \textbf{5628.6} & \textbf{5839.7} & \textbf{4880.1}
+  & \textbf{4432.7} & \textbf{4598.4} & \textbf{3845.6} \\
+\hline
+Throughput (tokens/s)
+  & 22.9 & 22.0 & 26.4 & 29.2 & 28.1 & 33.7 \\
+\hline\hline
+\end{tabular}
+\endgroup
+
+\vspace{0.6em}
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\setlength{\parskip}{0.35em}
+\textsuperscript{\dag}\,Qwen CSV+4090/CSV+5090 GPU stages are \emph{simulated} from measured Qwen-H20 rows (2026-06-23), scaled by Llama-2-7B cross-configuration ratios ($r_{4090}=\mathrm{Llama}_{4090}/\mathrm{Llama}_{H20}$, $r_{5090}=\mathrm{Llama}_{5090}/\mathrm{Llama}_{H20}$); replace with school-server measurements when available.\\
+\textsuperscript{\ddag}\,Tokenization, DP sanitization ($\varepsilon{=}1.0$, token-level RNM), and end-to-end totals include preliminary CPU-stage estimates; pending staged instrumentation.\\
+Llama: \texttt{eval-results/llama-2-7b-hf/}; Qwen H20: \texttt{eval-results/qwen2.5-7b-instruct/H20-20260623-150700.jsonl}.
+\end{minipage}
+\end{table*}

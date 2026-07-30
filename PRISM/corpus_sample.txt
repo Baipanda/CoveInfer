@@ -1,0 +1,20 @@
+Hello world.
+Summarize this: Large language models are powerful but can leak training data.
+Explain zero-knowledge proofs in simple terms.
+Write a short poem about GPUs and math.
+Translate to Chinese: privacy and security.
+User: What is the capital of France?
+Assistant: The capital of France is Paris.
+Give me three bullet points about differential privacy.
+What is cosine similarity?
+Describe the steps of a transformer block.
+How does RMSNorm differ from LayerNorm?
+Why does self-attention need softmax?
+Tell me a joke.
+Explain HNSW approximate nearest neighbor search.
+What is CUDA?
+How do I compile a CUDA project with conda?
+Explain what a commitment scheme is.
+What is BLS12-381?
+Why use fixed-point numbers for cryptography?
+List two risks of running un-audited crypto code.

@@ -1,0 +1,113 @@
+# Cove .gitignore
+# Keep: Python/CUDA source, scripts, README, small sample inputs.
+# Ignore: model weights, compiled binaries, benchmark outputs, DP/plotting
+# artifacts, and per-run zkLLM/SAGE workspaces (regenerate locally).
+
+# ---------------------------------------------------------------------------
+# Editor / Python environment
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+.cursor/
+*.swp
+*.swo
+.DS_Store
+
+# ---------------------------------------------------------------------------
+# Secrets and local config
+# ---------------------------------------------------------------------------
+.env
+.env.*
+*.pem
+*.key
+
+# ---------------------------------------------------------------------------
+# Logs and temp files
+# ---------------------------------------------------------------------------
+*.log
+/tmp/
+*.tmp
+
+# ---------------------------------------------------------------------------
+# Large offline installers / wheel caches
+# ---------------------------------------------------------------------------
+Anaconda3-*.sh
+offline-wheels-h20/
+offline-wheels*/
+*.whl
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+
+# ---------------------------------------------------------------------------
+# Model weights and HuggingFace cache (download or rsync separately)
+# ---------------------------------------------------------------------------
+model-storage/
+.cache/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin.index.json
+
+# ---------------------------------------------------------------------------
+# Benchmark results (regenerate via evaluation.py / scripts)
+# eval-results/<model-slug>/*.jsonl, *.csv
+# ---------------------------------------------------------------------------
+eval-results/
+
+# ---------------------------------------------------------------------------
+# Paper figures / LaTeX tables (regenerate via plotting/*.py)
+# plotting/<model-slug>/*.png, *.pdf, *.tex
+# ---------------------------------------------------------------------------
+plotting/*/
+
+# ---------------------------------------------------------------------------
+# DP lookup tables (regenerate via PRISM/build_*.py, scripts/)
+# PRISM/<model-slug>/low_freq_words.txt, nearest_tokens_30.npz
+# ---------------------------------------------------------------------------
+PRISM/*/
+*.npz
+
+# ---------------------------------------------------------------------------
+# zkLLM per-run verification workspaces
+# zkllm-chat/<timestamp>_<prompt-slug>/ (prompt.txt, layer .bin, run_meta.json)
+# ---------------------------------------------------------------------------
+zkllm-chat/
+
+# ---------------------------------------------------------------------------
+# zk-PIM compiled binaries, object files, and weight artifacts
+# ---------------------------------------------------------------------------
+*.bin
+*.o
+zk-PIM/zkllm-workdir/
+zk-PIM/main
+zk-PIM/ppgen
+zk-PIM/commit-param
+zk-PIM/self-attn
+zk-PIM/ffn
+zk-PIM/rmsnorm
+zk-PIM/skip-connection
+
+# ---------------------------------------------------------------------------
+# LSAGE GPU attestation (compile + enroll locally)
+# ---------------------------------------------------------------------------
+LSAGE/gpu_attest_40xx
+LSAGE/.gpu_attest_build.json
+LSAGE/attestation_profile.json
+LSAGE/checksum/main/checksum_launcher
+
+# ---------------------------------------------------------------------------
+# Keep empty placeholders for expected runtime dirs
+# ---------------------------------------------------------------------------
+!eval-results/.gitkeep
+!zkllm-chat/.gitkeep
+!zk-PIM/zkllm-workdir/.gitkeep
