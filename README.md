@@ -4,6 +4,15 @@
 
 本仓库名 **CoveInfer**，用于公开发布 / 复现；不含模型权重与运行时中间产物（benchmark 结果、DP 查找表、zkLLM 工作目录等需本地生成）。
 
+## Demo video
+
+演示视频通过 **GitHub Release** 托管（不在 git 仓库内，`git clone` 不会下载）：
+
+<video src="https://github.com/cryptosdu/CoveInfer/releases/download/demo/CoveInfer_English.mp4" controls width="720"></video>
+
+- [cryptosdu 在线观看 / 下载](https://github.com/cryptosdu/CoveInfer/releases/tag/demo)
+- [Baipanda 在线观看 / 下载](https://github.com/Baipanda/CoveInfer/releases/tag/demo)
+
 ## 入口
 
 | 脚本 | 作用 |
